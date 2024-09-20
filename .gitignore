@@ -1,0 +1,45 @@
+# Ignorar archivos de video
+videos/*.mkv
+videos/*.mp4
+
+
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Directorios de entornos de desarrollo locales
+.DS_Store
+.env
+.env.test
+.env.local
+.env.development
+.env.production
+
+# Directorios de pruebas y coverage
+coverage/
+.jest/
+
+# Configuraciones del editor de texto
+.vscode/
+.idea/
+
+# Sistema operativo o archivos de backup
+*.swp
+*.bak
+*.tmp
+
+# Archivos de distribución o build
+dist/
+build/
+
+# Archivos de empaquetamiento
+*.zip
+*.tar.gz
+
+# Otros archivos innecesarios
+*.log
+*.lock
