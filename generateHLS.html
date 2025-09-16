@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de HLS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #3b4947;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: rgb(170, 224, 216);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="file"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #8ab4b4;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .btn-container {
+            text-align: center;
+        }
+        .status {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generador de HLS</h1>
+
+    <div class="container">
+        <form id="generateHLSForm" action="/generateHLS-explorer" method="GET">
+            <label for="videoFile">Selecciona el archivo de video:</label>
+            <input type="file" id="videoFile" name="videoFile" required>
+
+            <label for="subtitleFile">Selecciona el archivo de subtítulos (opcional):</label>
+            <input type="file" id="subtitleFile" name="subtitleFile">
+
+            <div class="btn-container">
+                <input type="submit" value="Generar HLS">
+            </div>
+        </form>
+        
+        <div class="status" id="statusMessage"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('generateHLSForm');
+        const statusMessage = document.getElementById('statusMessage');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            statusMessage.textContent = 'Generando HLS, por favor espere...';
+
+            // Realizamos la solicitud de subida
+            fetch('/generateHLS-explorer', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusMessage.textContent = `HLS generado exitosamente: ${data.hlsUrl}`;
+                } else {
+                    statusMessage.textContent = 'Hubo un error al generar el HLS.';
+                }
+            })
+            .catch(error => {
+                statusMessage.textContent = 'Error al conectar con el servidor.';
+                console.error(error);
+            });
+        });
+    </script>
+
+</body>
+</html>
